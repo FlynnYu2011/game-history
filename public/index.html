@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE GAME HISTORY</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap">
+    <style>
+        :root {
+            --neon-blue: #00fff9;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bc13fe;
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050507;
+            --text-color: #ffffff;
+            --accent-color: #ff2975;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* 新增动画效果 */
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+        }
+        @keyframes matrix-rain {
+            0% { background-position: 0 0; }
+            100% { background-position: 50% 100%; }
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink {
+            50% { border-color: transparent }
+        }
+        /* 原有关键帧动画 */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes neon-glow {
+            0% { text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue); }
+            100% { text-shadow: 0 0 2px var(--neon-blue), 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+        }
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(32, 128, 255, 0.2) 2%,
+                transparent 3%
+            );
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 1001;
+        }
+        /* 头部样式增强 */
+        header {
+            background-color: var(--darker-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 255, 249, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 255, 249, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: matrix-rain 20s linear infinite;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                transparent 0%,
+                rgba(0, 255, 249, 0.2) 10%,
+                transparent 20%
+            );
+            animation: scanline 8s linear infinite;
+            z-index: 2;
+        }
+        .header-content {
+            position: relative;
+            z-index: 3;
+        }
+        .site-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            animation: neon-glow 2s ease-in-out infinite alternate, flicker 3s linear infinite;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        .site-title::before,
+        .site-title::after {
+            content: attr(data-text);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0.8;
+        }
+        .site-title::before {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: var(--neon-pink);
+            z-index: -1;
+        }
+        .site-title::after {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) reverse both infinite;
+            color: var(--neon-blue);
+            z-index: -2;
+        }
+        .site-description {
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
+            border-right: 3px solid var(--neon-blue);
+        }
+        .header-decorations {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .tech-circle {
+            position: absolute;
+            border: 1px solid var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+        .tech-circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            left: -100px;
+        }
+        .tech-circle:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            right: -150px;
+        }
+        .header-stats {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            opacity: 0.7;
+        }
+        .header-stats.top-left {
+            top: 20px;
+            left: 20px;
+            text-align: left;
+        }
+        .header-stats.top-right {
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        .system-time {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-pink);
+            font-size: 1rem;
+            margin-top: 1rem;
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+        /* 原有导航样式 */
+        nav {
+            background-color: rgba(10, 10, 15, 0.9);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neon-purple);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+        .nav-link.active {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+        .nav-link.active::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        /* 原有主要内容样式 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .year-section {
+            margin-bottom: 6rem;
+            position: relative;
+        }
+        .year-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        .game-card {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--neon-blue);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+        .game-card:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 0%,
+                rgba(0, 255, 249, 0.1) 50%,
+                transparent 100%
+            );
+            animation: glitch 0.3s linear infinite;
+        }
+        .game-image-container {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 66.67%;
+        }
+        .game-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(1.2) contrast(1.1);
+        }
+        .game-content {
+            padding: 2rem;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(0, 255, 249, 0.1)
+            );
+        }
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+        .game-description {
+            color: #b8b8b8;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .game-meta {
+            margin-top: 1rem;
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* 原有页脚样式 */
+        footer {
+            background-color: var(--darker-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--neon-purple);
+        }
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .footer-text {
+            color: var(--neon-pink);
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .footer-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+        }
+        .footer-link:hover {
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 2.5rem;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+            .nav-link {
+                font-size: 0.9rem;
+            }
+            .game-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .year-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-decorations">
+            <div class="tech-circle"></div>
+            <div class="tech-circle"></div>
+        </div>
+        <div class="header-stats top-left">
+            [SYS.STATUS: ONLINE]<br>
+            [ARCHIVES: LOADING...]<br>
+            [SECURITY: ACTIVE]
+        </div>
+        <div class="header-stats top-right">
+            [MEMORY: 98.2% INTACT]<br>
+            [DATABASE: CONNECTED]<br>
+            [ENCRYPTION: ENABLED]
+        </div>
+        <div class="header-content">
+            <h1 class="site-title" data-text="THE GAME HISTORICAL">THE GAME HISTORICAL</h1>
+            <p class="site-description">> Accessing Digital Archives: 2014-2020_</p>
+            <div class="system-time" id="systemTime"></div>
+        </div>
+    </header>
+    <nav>
+        <div class="nav-container">
+            <a href="#2020" class="nav-link">[2020]</a>
+            <a href="#2019" class="nav-link">[2019]</a>
+            <a href="#2018" class="nav-link">[2018]</a>
+            <a href="#2017" class="nav-link">[2017]</a>
+            <a href="#2016" class="nav-link">[2016]</a>
+            <a href="#2015" class="nav-link">[2015]</a>
+            <a href="#2014" class="nav-link">[2014]</a>
+        </div>
+    </nav>
+    <main class="main-container">
+        <section id="2020" class="year-section">
+            <h2 class="year-title">> 2020_</h2>
+            <div class="game-grid">
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="C:\Users\NINGMEI\Desktop\新建文件夹\image\HADES横.jpg" alt="Cyberpunk 2077" class="game-image">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">> Hades_</h3>
+                        <p class="game-description">A groundbreaking open-world RPG that redefined the cyberpunk genre. Set in the neon-lit streets of Night City, where corporate power, advanced technology, and human augmentation intersect.</p>
+                        <div class="game-meta">[RELEASE: 10.12.2020]</div>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="C:\Users\NINGMEI\Desktop\新建文件夹\image\ghost横.jpg" alt="The Last of Us Part II">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">> The Last of Us Part II_</h3>
+                        <p class="game-description">A masterpiece of narrative design that pushed the boundaries of interactive storytelling, exploring the darkest aspects of human nature in a post-apocalyptic world.</p>
+                        <div class="game-meta">[RELEASE: 19.06.2020]</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="2019" class="year-section">
+            <h2 class="year-title">[2019]</h2>
+            <div class="game-grid">
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="C:\Users\NINGMEI\Desktop\新建文件夹\image\the last of us.jpg" >
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Sekiro: Shadows Die Twice</h3>
+                        <p class="game-description">FromSoftware's masterpiece that redefined action combat. Set in a reimagined Sengoku period Japan, where death is not the end but a new beginning.</p>
+                        <div class="game-meta">Released: 22.03.2019 // FromSoftware</div>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="main/%E6%A8%AADEATH.jpeg" alt="Death Stranding">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Death Stranding</h3>
+                        <p class="game-description">Kojima Productions' revolutionary game about connection and isolation. A unique blend of action and social connectivity in a post-apocalyptic world.</p>
+                        <div class="game-meta">Released: 08.11.2019 // Kojima Productions</div>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="https://via.placeholder.com/600x400" alt="Resident Evil 2 Remake" class="game-image">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Resident Evil 2 Remake</h3>
+                        <p class="game-description">A ground-up remake of the horror classic, bringing modern graphics and gameplay mechanics while maintaining the terrifying atmosphere of the original.</p>
+                        <div class="game-meta">Released: 25.01.2019 // Capcom</div>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-image-container">
+                        <img src="https://via.placeholder.com/600x400" alt="Control" class="game-image">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Control</h3>
+                        <p class="game-description">Remedy's supernatural action-adventure that blends paranormal abilities with mind-bending architecture in the mysterious Oldest House.</p>
+                        <div class="game-meta">Released: 27.08.2019 // Remedy</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">> SYSTEM STATUS: ONLINE</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">[ABOUT]</a>
+                <a href="#" class="footer-link">[CONTACT]</a>
+                <a href="#" class="footer-link">[SECURITY]</a>
+            </div>
+            <p class="footer-text">> © 2025 THE_GAME_HISTORY_</p>
+        </div>
+    </footer>
+    <script>
+        // 原有平滑滚动和导航激活逻辑
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.year-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        // 新增动态时间和随机故障效果
+        function updateSystemTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('systemTime').innerHTML = `[SYSTEM_TIME: ${timeString}]`;
+        }
+        updateSystemTime();
+        setInterval(updateSystemTime, 1000);
+        function randomGlitch() {
+            const title = document.querySelector('.site-title');
+            title.style.animation = 'none';
+            void title.offsetWidth; // 触发重排
+            title.style.animation = null;
+        }
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                randomGlitch();
+            }
+        }, 2000);
+        // 原有卡片随机故障效果
+        setInterval(() => {
+            const cards = document.querySelectorAll('.game-card');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            randomCard.style.animation = 'glitch 0.3s linear';
+            setTimeout(() => {
+                randomCard.style.animation = '';
+            }, 300);
+        }, 3000);
+    </script>
+</body>
+</html>
